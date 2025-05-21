@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package parser;
+
+service ResumeParser {
+  rpc ParseResume (ParseResumeRequest) returns (ParseResumeResponse);
+}
+
+message ParseResumeRequest {
+  bytes file_content = 1;
+  string filename = 2;
+}
+
+message ParseResumeResponse {
+  string text = 1;
+}
