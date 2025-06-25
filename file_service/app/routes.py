@@ -1,6 +1,6 @@
 from fastapi import APIRouter, File, UploadFile, Header, HTTPException
 import os
-from file_service.app.auth.jwt_utils import verify_token
+from file_service.app.auth.jwt_utils import verify_token, create_token
 from grpc_client import send_file_to_parser
 
 router = APIRouter()
@@ -17,6 +17,13 @@ def get_current_user(authorization: str = Header(...)):
         return verify_token(token)
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))
+
+
+@router.post("/token")
+def get_token(username: str):
+    return {"access_token": create_token(username), "token_type": "bearer"}
+
+
 @router.post("/upload/")
 async def upload_file(file: UploadFile = File(...)):
     file_location = os.path.join(UPLOAD_DIR, file.filename)
