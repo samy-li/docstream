@@ -14,7 +14,7 @@ async def upload_file(file: UploadFile = File(...)):
         content = await file.read()
         buffer.write(content)
     try:
-        send_file_to_parser(file_location)
+        send_file_to_parser(file.filename)
     except Exception as e:
         print(e)
     return {"filename": file.filename, "path": file_location}
