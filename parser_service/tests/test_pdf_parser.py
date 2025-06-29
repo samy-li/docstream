@@ -11,7 +11,7 @@ def create_pdf(path, text="PDF Content"):
 def test_pdf_standard(tmp_path):
     path = tmp_path / "file.pdf"
     create_pdf(path, "Some text")
-    assert "Some Text" in PDFParser().extract_text(str(path))
+    assert "Some text" in PDFParser().extract_text(str(path))
 
 def test_pdf_empty(tmp_path):
     path = tmp_path / "empty.pdf"
