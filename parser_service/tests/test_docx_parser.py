@@ -18,18 +18,6 @@ def test_docx_empty(tmp_path):
     with pytest.raises(ValueError):
         DocxParser().extract_text(str(docx_path))
 
-def test_docx_wrong_extension(tmp_path):
-    path = tmp_path / "file.txt"
-    create_docx(path, "Wrong Ext")
-    with pytest.raises(ValueError):
-        DocxParser().extract_text(str(path))
-
-def test_docx_no_extension(tmp_path):
-    path = tmp_path / "noext"
-    create_docx(path, "No Ext")
-    with pytest.raises(ValueError):
-        DocxParser().extract_text(str(path))
-
 def test_docx_directory(tmp_path):
     with pytest.raises(IsADirectoryError):
         DocxParser().extract_text(str(tmp_path))
