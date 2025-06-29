@@ -4,7 +4,7 @@ from parser_service.app.parsers.txt_parser import TxtParser
 def test_txt_standard(tmp_path):
     txt_path = tmp_path / "file.txt"
     txt_path.write_text("Some text", encoding="utf-8")
-    assert "Hello TXT" in TxtParser().extract_text(str(txt_path))
+    assert "Some text" in TxtParser().extract_text(str(txt_path))
 
 def test_txt_empty(tmp_path):
     txt_path = tmp_path / "file.txt"
