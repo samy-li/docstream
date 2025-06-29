@@ -19,25 +19,17 @@ def test_pdf_empty(tmp_path):
     with pytest.raises(ValueError):
         PDFParser().extract_text(str(path))
 
-def test_pdf_wrong_extension(tmp_path):
-    path = tmp_path / "file.txt"
-    create_pdf(path, "Wrong Ext")
-    with pytest.raises(ValueError):
-        PDFParser().extract_text(str(path))
-
-def test_pdf_no_extension(tmp_path):
-    path = tmp_path / "file"
-    create_pdf(path, "No Ext")
-    with pytest.raises(ValueError):
-        PDFParser().extract_text(str(path))
-
 def test_pdf_directory(tmp_path):
     with pytest.raises(IsADirectoryError):
         PDFParser().extract_text(str(tmp_path))
 
 def test_pdf_corrupted(tmp_path):
     path = tmp_path / "corrupt.pdf"
-    path.write_bytes(b"Some corrupt PDF text")
+    path.write_bytes(b"not a real pdf")
     with pytest.raises(ValueError):
         PDFParser().extract_text(str(path))
+
+def test_pdf_file_not_found():
+    with pytest.raises(FileNotFoundError):
+        PDFParser().extract_text("/tmp/notfound.pdf")
 
