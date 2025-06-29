@@ -3,7 +3,7 @@ from .parser import Parser
 import pdfplumber
 
 
-logger = logging.getLogger("__name__")
+logger = logging.getLogger(__name__)
 
 
 class PDFParser(Parser):
