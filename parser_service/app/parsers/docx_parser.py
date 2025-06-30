@@ -10,8 +10,18 @@ class DocxParser(Parser):
         try:
             doc = docx.Document(file_path)
             text = [p.text for p in doc.paragraphs if p.text]
+
+            # Extract tables
+            for table in doc.tables:
+                for row in table.rows:
+                    row_text = [cell.text.strip() for cell in row.cells if
+                                cell.text.strip()]
+                    if row_text:
+                        text.append(" | ".join(row_text))
+
             full_text = "\n".join(text)
-            if not full_text:
+
+            if not full_text.strip():
                 logger.error(
                     f"DOCX file '{file_path}' parsed but contained no extractable text.")
                 raise ValueError("Could not extract text from DOCX file.")
