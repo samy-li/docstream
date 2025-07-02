@@ -5,7 +5,7 @@ services:
     build:
       context: ./file_service
     ports:
-      - "8000:8000"
+      - "8001:8000"
     volumes:
       - ./file_service/storage:/app/storage
     depends_on:
@@ -21,3 +21,21 @@ services:
       - "50051:50051"
     volumes:
       - ./parser_service:/app
+
+  worker_service:
+    build: ./summarization_worker
+    depends_on:
+      - rabbitmq
+      - summarizer_service
+      - redis
+
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+
