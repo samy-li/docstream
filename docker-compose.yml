@@ -1,11 +1,9 @@
-version: "3.9"
-
 services:
   file_service:
     build:
       context: ./file_service
     ports:
-      - "8001:8000"
+      - "8001:8002"
     volumes:
       - ./file_service/storage:/app/storage
     depends_on:
@@ -22,12 +20,18 @@ services:
     volumes:
       - ./parser_service:/app
 
+  summarizer_service:
+    build:
+      context: ./summarizer_service
+    ports:
+      - "8000:8003"
+      - "50052:50052"
+
   worker_service:
     build: ./summarization_worker
     depends_on:
       - rabbitmq
       - summarizer_service
-      - redis
 
 
   rabbitmq:
