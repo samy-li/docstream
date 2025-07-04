@@ -3,3 +3,7 @@ uvicorn
 python-multipart
 pyjwt
 python-magic
+grpcio
+protobuf
+grpcio-tools
+pika
