@@ -28,7 +28,7 @@ services:
       - "50052:50052"
 
   worker_service:
-    build: ./summarization_worker
+    build: ./worker_service
     depends_on:
       - rabbitmq
       - summarizer_service
@@ -37,8 +37,8 @@ services:
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "5673:5673"
+      - "15673:15673"
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
