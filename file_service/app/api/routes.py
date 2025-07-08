@@ -1,8 +1,8 @@
 from fastapi import APIRouter, File, UploadFile, Header, HTTPException, Depends
 import os
-from .auth.jwt_utils import verify_token, create_token
-from .utils.file_validator import validate_file
-from .grpc_client import send_file_to_parser
+from app.auth.jwt_utils import verify_token, create_token
+from app.utils.file_validator import validate_file
+from app.grpc_client import send_file_to_parser
 
 router = APIRouter()
 
