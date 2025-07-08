@@ -1,5 +1,5 @@
 from fastapi import UploadFile
-from app.utils.file_utils import validate_file
+from app.utils.file_validator import validate_file
 from app.interfaces.interfaces import FileStorage, ParserClient
 
 class UploadService:
