@@ -30,6 +30,10 @@ async def upload_file(file: Annotated[UploadFile, File(...)],
     return UploadResponse(filename=response["filename"], parser_response=response["parser_response"])
 
 
-@router.get("/health")
+@router.get("/health",
+            summary="Service health check",
+            response_description="Returns OK status if service is running",
+            tags=["System"]
+            )
 def health():
     return {"status": "ok"}
