@@ -22,7 +22,7 @@ def validate_file_size(content: bytes) -> bool:
         return False
     return True
 
-def validate_file_type(content: bytes):
+def validate_file_type(content: bytes) -> bool:
     """
        Validates the MIME type of the file using libmagic.
 
@@ -38,7 +38,7 @@ def validate_file_type(content: bytes):
         return False
     return True
 
-def validate_file(content: bytes):
+def validate_file(content: bytes) -> bool:
     """
         Validates both the size and MIME a file.
 
