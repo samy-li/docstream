@@ -2,7 +2,7 @@ import os
 from fastapi import APIRouter, File, UploadFile, Depends
 from typing import Annotated
 
-from app.config.settings import Settings
+from app.config.settings import get_settings
 from app.auth.gateway_user_provider import get_current_user_id
 from app.core.upload_service import UploadService
 from app.schemas.responses import UploadResponse
@@ -10,7 +10,9 @@ from app.dependencies.upload_service_di import get_upload_service
 
 router = APIRouter()
 
-UPLOAD_DIR = Settings.UPLOAD_DIR
+settings = get_settings()
+
+UPLOAD_DIR = settings.upload_dir
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
