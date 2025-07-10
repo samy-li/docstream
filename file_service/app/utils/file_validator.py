@@ -40,7 +40,7 @@ def validate_file_type(content: bytes) -> bool:
 
 def validate_file(content: bytes) -> bool:
     """
-        Validates both the size and MIME a file.
+        Validates both the size and MIME of a file.
 
         Raises:
             HTTPException: 413 if file too large, 400 if unsupported MIME type.
