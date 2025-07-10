@@ -20,8 +20,7 @@ def validate_file_size(content: bytes) -> bool:
         logger.warning(
             f"File rejected: size={len(content)} exceeds max={MAX_FILE_SIZE}")
         return False
-    else:
-        return True
+    return True
 
 def validate_file_type(content: bytes):
     """
