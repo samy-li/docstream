@@ -36,8 +36,7 @@ def validate_file_type(content: bytes):
     if mime not in ALLOWED_MIME_TYPES:
         logger.warning(f"File rejected: MIME type '{mime}' not allowed")
         return False
-    else:
-        return True
+    return True
 
 def validate_file(content: bytes):
     """
