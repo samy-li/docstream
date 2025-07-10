@@ -7,5 +7,5 @@ class FileStorage(ABC):
 
 class ParserClient(ABC):
     @abstractmethod
-    def send_to_parser(self, file_name: str) -> str:
+    def send_to_parser(self, file_url: str) -> str:
         pass
