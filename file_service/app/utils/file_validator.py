@@ -2,6 +2,10 @@ from fastapi import HTTPException
 import magic
 from app.config.settings import MAX_FILE_SIZE, ALLOWED_MIME_TYPES
 
+import logging
+logger = logging.getLogger(__name__)
+
+
 def validate_file_size(content: bytes) -> bool:
     """
        Validates that the uploaded file does not exceed the max allowed size.
@@ -13,6 +17,8 @@ def validate_file_size(content: bytes) -> bool:
            bool: True if size is within limits, False otherwise.
     """
     if len(content) > MAX_FILE_SIZE:
+        logger.warning(
+            f"File rejected: size={len(content)} exceeds max={MAX_FILE_SIZE}")
         return False
     else:
         return True
@@ -29,6 +35,7 @@ def validate_file_type(content: bytes):
     """
     mime = magic.from_buffer(content, mime=True)
     if mime not in ALLOWED_MIME_TYPES:
+        logger.warning(f"File rejected: MIME type '{mime}' not allowed")
         return False
     else:
         return True
