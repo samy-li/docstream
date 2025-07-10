@@ -16,7 +16,7 @@ class GRPCClient(ParserClient):
         """
                Initializes the gRPC channel and stub to the parser service.
 
-               param:
+               Args:
                    host (str): Hostname of the gRPC parser service.
                    port (int): Port of the gRPC parser service.
         """
