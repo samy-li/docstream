@@ -4,19 +4,15 @@ from app.config.settings import Settings
 from app.grpc import parser_pb2, parser_pb2_grpc
 from app.interfaces.interfaces import ParserClient
 
-STORAGE_DIR = Settings.UPLOAD_DIR
-GRPC_SERVER_HOST = Settings.GRPC_SERVER_HOST
-GRPC_SERVER_PORT = Settings.GRPC_SERVER_PORT
-
-
-
 
 class GRPCClient(ParserClient):
     """
        gRPC-based parser client that sends file URLs
        to the external parser service.
        """
-    def __init__(self, host: str = Settings.GRPC_SERVER_HOST, port: int = GRPC_SERVER_PORT):
+
+    def __init__(self, host: str = Settings.GRPC_SERVER_HOST,
+                 port: int = Settings.GRPC_SERVER_PORT):
         """
                Initializes the gRPC channel and stub to the parser service.
 
