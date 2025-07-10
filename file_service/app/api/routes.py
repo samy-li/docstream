@@ -6,7 +6,7 @@ from app.config.settings import Settings
 from app.auth.gateway_user_provider import get_current_user_id
 from app.core.upload_service import UploadService
 from app.schemas.responses import UploadResponse
-from dependencies.upload_service_di import get_upload_service
+from app.dependencies.upload_service_di import get_upload_service
 
 router = APIRouter()
 
