@@ -7,3 +7,11 @@ grpcio
 protobuf
 grpcio-tools
 pika
+minio
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-exporter-otlp
+opentelemetry-instrumentation
+opentelemetry-instrumentation-fastapi
+prometheus-client
+tenacity
