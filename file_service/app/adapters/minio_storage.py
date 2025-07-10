@@ -30,7 +30,7 @@ class MinIOStorage(FileStorage):
         if not self.client.bucket_exists(self.bucket):
             self.client.make_bucket(self.bucket)
 
-    def save(self, filename: str, content: bytes) -> str:
+    def save_file(self, filename: str, content: bytes) -> str:
         try:
             self.client.put_object(
                 bucket_name=self.bucket,
