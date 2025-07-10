@@ -14,7 +14,12 @@ UPLOAD_DIR = Settings.UPLOAD_DIR
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
-@router.post("/upload")
+@router.post("/upload",
+             response_model=UploadResponse,
+             summary="Upload a document for processing",
+             response_description="Uploaded file processing status",
+             tags=["Document Upload"]
+             )
 async def upload_file(file: Annotated[UploadFile, File(...)],
                       user_id: Annotated[str, Depends(get_current_user_id)],
                       upload_service: Annotated[UploadService, Depends(
