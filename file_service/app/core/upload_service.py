@@ -10,8 +10,11 @@ class UploadService:
     async def handle_upload(self, file: UploadFile, user_id: str):
         content = await file.read()
         validate_file(content)
-        path = self.storage.save_file(file.filename, content)
-        response = self.parser.send_to_parser(file.filename)
+
+        # Scoped filename prevents collisions between users
+        scoped_filename = f"{user_id}/{file.filename}"
+        path = self.storage.save_file(scoped_filename, content)
+        response = self.parser.send_to_parser(path)
         return {
             "filename": file.filename,
             "path": path,
