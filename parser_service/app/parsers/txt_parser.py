@@ -1,7 +1,7 @@
 import logging
 
-from parser_service.app.exceptions.parser_error import ParserError
-from parser_service.app.parsers.parser import Parser
+from .exceptions.parser_error import ParserError
+from .parser import Parser
 
 
 logger = logging.getLogger(__name__)
