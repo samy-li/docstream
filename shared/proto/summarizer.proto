@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package summarizer;
+
+service Summarizer{
+    rpc Summarize(SummaryJob) returns (SummaryAck);
+}
+
+message SummaryJob{
+    string job_id = 1;
+    string text = 2;
+}
+
+message SummaryAck{
+    bool success = 1;
+}
