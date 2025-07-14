@@ -1,0 +1,2 @@
+Summarize this "{input}" if no meaningful data just return ERROR no extra text.
+The structure should follow this: Short summary, Key points, Important to retain, References
