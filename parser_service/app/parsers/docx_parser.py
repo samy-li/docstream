@@ -1,3 +1,4 @@
+from .exceptions.parser_error import ParserError
 from parser_service.app.parsers.parser import Parser
 import docx
 import logging
@@ -12,31 +13,43 @@ class DocxParser(Parser):
             text = [p.text for p in doc.paragraphs if p.text]
 
             # Extract tables
-            for table in doc.tables:
-                for row in table.rows:
-                    row_text = [cell.text.strip() for cell in row.cells if
+            try:
+                for table in doc.tables:
+                    for row_index, row in enumerate(table.rows):
+                        try:
+                            row_text = [cell.text.strip() for cell in row.cells if
                                 cell.text.strip()]
-                    if row_text:
-                        text.append(" | ".join(row_text))
+                            if row_text:
+                                text.append(" | ".join(row_text))
+                        except Exception as e:
+                            logger.warning(
+                                f"Failed to extract row {row_index + 1} in "
+                                f"a table from '{file_path}': {e}"
+                            )
+            except Exception as e:
+                logger.warning(
+                    f"Error extracting tables from '{file_path}': {e}"
+                )
 
             full_text = "\n".join(text)
 
             if not full_text.strip():
                 logger.error(
                     f"DOCX file '{file_path}' parsed but contained no extractable text.")
-                raise ValueError("Could not extract text from DOCX file.")
+                raise ParserError("DOCX file contains no extractable text.")
             return full_text
-        except FileNotFoundError:
+        except FileNotFoundError as e:
             logger.error(f"DOCX file '{file_path}' not found.")
-            raise
-        except PermissionError:
+            raise ParserError("DOCX file not found.") from e
+        except PermissionError as e:
             logger.error(f"No permission to read DOCX file: '{file_path}'.")
-            raise
-        except IsADirectoryError:
+            raise  ParserError("No permission to read DOCX file.") from e
+        except IsADirectoryError as e:
             logger.error(f"Expected a file but got a directory: '{file_path}'.")
-            raise
+            raise ParserError("Expected a file but got a directory.") from e
         except Exception as e:
-            logger.error(
-                f"Failed to extract text from DOCX file '{file_path}': {e}",
+            logger.critical(
+                f"Unexpected error while parsing DOCX file '{file_path}': {e}",
                 exc_info=True)
-            raise ValueError("Corrupted or unreadable DOCX file.") from e
+            raise ParserError(
+                "Unknown error occurred during DOCX parsing.") from e
