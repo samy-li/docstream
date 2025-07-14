@@ -1,24 +1,22 @@
-from .docx_parser import DocxParser
-from .pdf_parser import PDFParser
-from .txt_parser import TxtParser
-import magic
-
+from .exceptions.parser_error import ParserError
+from ..utils.file_type_control import detect_file_type
+from ..config.settings import get_settings
 
 class ParserFactory:
     @staticmethod
     def get_parser(file_path: str):
-        ext = file_path.lower().split('.')[-1]
+        settings = get_settings()
+        ext, mime = detect_file_type(file_path)
 
-        # Detect MIME type
-        mime = magic.from_file(file_path, mime=True)
+        if ext not in settings.supported_types:
+            raise ParserError(f"Unsupported file extension: .{ext}")
 
-        # Decide based on MIME and extension
-        if ext == "pdf" and mime == "application/pdf":
-            return PDFParser()
-        elif ext == "docx" and mime in [
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]:
-            return DocxParser()
-        elif ext == "txt" and mime in ["text/plain"]:
-            return TxtParser()
-        else:
-            raise ValueError(f"Error: Unsupported file format: {ext}")
+        if mime not in settings.supported_types[ext]:
+            raise ParserError(
+                f"Extension .{ext} does not match MIME type {mime}")
+
+        parser = settings.parser_map.get(ext)
+        if not parser:
+            raise ParserError(f"No parser registered for extension: .{ext}")
+
+        return parser()
