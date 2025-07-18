@@ -4,7 +4,7 @@ import logging
 import grpc
 from parser_service.app.proto import parser_pb2, parser_pb2_grpc
 from parser_service.app.parsers.factory import ParserFactory
-from .app.parsers.exceptions.parser_error import ParserError
+from parser_service.app.parsers.exceptions.parser_error import ParserError
 
 logger = logging.getLogger(__name__)
 
