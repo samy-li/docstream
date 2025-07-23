@@ -22,7 +22,7 @@ services:
 
   summarizer_service:
     build:
-      context: ./summarizer_service
+      context: processing_service
     ports:
       - "8000:8003"
       - "50052:50052"
