@@ -1,7 +1,7 @@
 import logging
 from fastapi import APIRouter, HTTPException, FastAPI
 from processing_service.app.models.processing_model import ProcessingResponse
-from processing_service.app.utils.summary_retriever import read_target_file
+from processing_service.app.utils.persistence import Storage
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/result", tags=["Result"])
@@ -15,7 +15,8 @@ async def get_result(job_id: str) -> ProcessingResponse:
     Returns 202 if the result is not yet available.
     """
     try:
-        result = read_target_file(job_id)
+        storage = Storage()
+        result = storage.load(job_id)
         if result is None:
             logger.info("Result not ready for job_id=%s", job_id)
             raise HTTPException(status_code=202,
