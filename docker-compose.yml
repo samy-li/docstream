@@ -8,6 +8,7 @@ services:
       - ./file_service/storage:/app/storage
     depends_on:
       - parser_service
+      - auth_service
     environment:
       - PARSER_HOST=parser_service
       - PARSER_PORT=50051
@@ -20,7 +21,7 @@ services:
     volumes:
       - ./parser_service:/app
 
-  summarizer_service:
+  processing_service:
     build:
       context: processing_service
     ports:
@@ -31,14 +32,21 @@ services:
     build: ./worker_service
     depends_on:
       - rabbitmq
-      - summarizer_service
+      - processing_service
+        
+  auth_service:
+    build: ./auth_service
+    container_name: resumate-auth-service
+    restart: unless-stopped
+    ports:
+      - "8005:8005"
 
 
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "5673:5672"
+      - "15673:15672"
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
