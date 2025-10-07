@@ -1,6 +1,6 @@
 import grpc
 
-from app.config.settings import Settings
+from app.config.settings import get_settings
 from app.grpc import parser_pb2, parser_pb2_grpc
 from app.interfaces.interfaces import ParserClient
 
@@ -11,8 +11,8 @@ class GRPCClient(ParserClient):
        to the external parser service.
        """
 
-    def __init__(self, host: str = Settings.GRPC_SERVER_HOST,
-                 port: int = Settings.GRPC_SERVER_PORT):
+    def __init__(self, host: str = get_settings().grpc_server_host,
+                 port: int = get_settings().grpc_server_port):
         """
                Initializes the gRPC channel and stub to the parser service.
 
