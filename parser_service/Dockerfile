@@ -5,6 +5,8 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+ENV PYTHONPATH=/app
+
 # Create storage directory for file uploads
 RUN mkdir -p /app/storage
 
