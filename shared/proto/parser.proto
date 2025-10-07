@@ -2,15 +2,15 @@ syntax = "proto3";
 
 package parser;
 
-service ResumeParser {
-  rpc ParseResume (ParseResumeRequest) returns (ParseResumeResponse);
+service DocumentParser {
+  rpc ParseDocument (ParseDocumentRequest) returns (ParseDocumentResponse);
 }
 
-message ParseResumeRequest {
+message ParseDocumentRequest {
   bytes file_content = 1;
   string filename = 2;
 }
 
-message ParseResumeResponse {
+message ParseDocumentResponse {
   string text = 1;
 }
