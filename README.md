@@ -1,6 +1,6 @@
 # 📄 DocStream  
 
-**DocStream** is a distributed document intelligence platform that processes and analyzes unstructured documents at scale.  
+**DocStream** is a distributed document platform that processes and analyzes documents in order to extract standardized and structured insights.  
 It leverages a microservices architecture, asynchronous messaging, and modern DevOps practices to deliver fast, reliable, and maintainable insights from complex files.  
 
 ---
