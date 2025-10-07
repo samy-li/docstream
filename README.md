@@ -4,11 +4,14 @@
 It leverages a microservices architecture, asynchronous messaging, and modern DevOps practices to deliver fast, reliable, and maintainable insights from complex files.  
 
 ---
+
 **Note**: DocStream is currently under active development and is not yet fully functional.
 Some services, configurations, and integrations are still being implemented.
 A complete, runnable version (including working Docker Compose setup) will be released soon.
-In the meantime, you can explore the architecture, source code, and design patterns that form the foundation of the system.
+In the meantime, you can explore the architecture and source code.
+
 ---
+
 ## 🚀 Key Features  
 - **Multi-format support**: PDF, DOCX, TXT (future support for scanned images/OCR).  
 - **Microservices-based design**: Each service encapsulates a single responsibility for scalability and maintainability.  
