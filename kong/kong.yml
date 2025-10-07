@@ -39,14 +39,14 @@ services:
         headers:
         - "X-User-ID:$(jwt.claim.sub)"
 
-# ────────── summarizer-service ────────────────────────────────────────────────
-- name: summarizer-service
+# ────────── processing-service ────────────────────────────────────────────────
+- name: processing-service
   url: http://summarizer-service:8005
 
   routes:
-  - name: summary-route
-    paths: [ /summary ]
-    methods: [ POST ]
+  - name: result-route
+    paths: [ /result ]
+    methods: [ GET ]
     strip_path: false
 
   plugins:
