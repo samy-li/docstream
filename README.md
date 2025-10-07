@@ -7,7 +7,6 @@ It leverages a microservices architecture, asynchronous messaging, and modern De
 **Note**: DocStream is currently under active development and is not yet fully functional.
 Some services, configurations, and integrations are still being implemented.
 A complete, runnable version (including working Docker Compose setup) will be released soon.
-
 In the meantime, you can explore the architecture, source code, and design patterns that form the foundation of the system.
 ---
 ## 🚀 Key Features  
