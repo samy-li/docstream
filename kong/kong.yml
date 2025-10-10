@@ -5,7 +5,7 @@ _transform: true
 services:
 # ───────────── file-service ───────────────────────────────────────────────────
 - name: file-service
-  url: http://file-service:8002
+  url: http://file-service:8001
 
   routes:
   - name: upload-route
@@ -19,7 +19,15 @@ services:
     strip_path: false
 
   plugins:
-  - name: jwt
+  - name: openid-connect
+    config:
+      issuer: http://auth-service:8005
+      discovery: true
+      verify_signature: true
+      verify_claims: true
+      scopes_required: []
+      roles_claim: "scope"
+      consumer_claim: "sub"
   - name: rate-limiting
     config:
       second: 5
@@ -41,7 +49,7 @@ services:
 
 # ────────── processing-service ────────────────────────────────────────────────
 - name: processing-service
-  url: http://summarizer-service:8005
+  url: http://processing-service:8003
 
   routes:
   - name: result-route
@@ -50,7 +58,15 @@ services:
     strip_path: false
 
   plugins:
-  - name: jwt
+  - name: openid-connect
+    config:
+      issuer: http://auth-service:8005
+      discovery: true
+      verify_signature: true
+      verify_claims: true
+      scopes_required: []
+      roles_claim: "scope"
+      consumer_claim: "sub"
   - name: rate-limiting
     config:
       second: 5
@@ -69,12 +85,3 @@ services:
       add:
         headers:
         - "X-User-ID:$(jwt.claim.sub)"
-
-
-consumers:
-- username: resumate-user
-  custom_id: resumate-user-id
-  jwt_secrets:
-  - algorithm: HS256
-    key: <KEY>
-    secret: resumate-secret
