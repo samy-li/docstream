@@ -6,9 +6,14 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /app
+COPY . .
 
 ENV PYTHONPATH=/app
+
+RUN adduser --disabled-password appuser && chown -R appuser /app
+USER appuser
+
+EXPOSE 8005
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8005"]
 
