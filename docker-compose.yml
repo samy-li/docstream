@@ -1,9 +1,11 @@
+version: '3.9'
 services:
   file_service:
     build:
       context: ./file_service
+    container_name: file-service
     ports:
-      - "8001:8002"
+      - "8001:8001"
     volumes:
       - ./file_service/storage:/app/storage
     depends_on:
@@ -12,47 +14,71 @@ services:
     environment:
       - PARSER_HOST=parser_service
       - PARSER_PORT=50051
+    restart: unless-stopped
+    networks:
+      - docstream-net
 
   parser_service:
     build:
       context: ./parser_service
+    container_name: parser-service
     ports:
       - "50051:50051"
     volumes:
       - ./parser_service:/app
+    restart: unless-stopped
+    networks:
+      - docstream-net
 
   processing_service:
     build:
       context: processing_service
+    container_name: processing-service
     ports:
-      - "8000:8003"
-      - "50052:50052"
+      - "8003:8003"    #HTTP
+      - "50052:50052"  #gRPC
+    restart: unless-stopped
+    networks:
+      - docstream-net
 
   worker_service:
-    build: ./worker_service
+    build:
+      context: ./worker_service
+    container_name: worker-service
     depends_on:
       - rabbitmq
       - processing_service
+    restart: unless-stopped
+    networks:
+      - docstream-net
         
   auth_service:
-    build: ./auth_service
-    container_name: resumate-auth-service
-    restart: unless-stopped
+    build:
+      context: ./auth_service
+    container_name: auth-service
     ports:
       - "8005:8005"
+    restart: unless-stopped
+    networks:
+      - docstream-net
 
 
   rabbitmq:
     image: rabbitmq:3-management
+    container_name: rabbitmq
     ports:
-      - "5673:5672"
-      - "15673:15672"
+      - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
+    restart: unless-stopped
+    networks:
+      - docstream-net
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
     command: [ "--config=/etc/otel-collector-config.yaml" ]
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
@@ -60,17 +86,28 @@ services:
       - "4317:4317"   # OTLP gRPC (traces + metrics)
       - "4318:4318"   # OTLP HTTP (optional)
       - "8889:8889"   # Prometheus scrape endpoint
+    restart: unless-stopped
+    networks:
+      - docstream-net
 
   jaeger:
     image: jaegertracing/all-in-one:latest
+    container_name: jaeger
     ports:
       - "16686:16686"   # Jaeger UI
+    restart: unless-stopped
+    networks:
+      - docstream-net
 
   prometheus:
     image: prom/prometheus
+    container_name: prometheus
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    restart: unless-stopped
+    networks:
+      - docstream-net
 
 
