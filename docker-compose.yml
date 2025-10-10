@@ -109,5 +109,8 @@ services:
     restart: unless-stopped
     networks:
       - docstream-net
+networks:
+  docstream-net:
+    driver: bridge
 
 
