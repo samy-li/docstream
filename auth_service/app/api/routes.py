@@ -1,14 +1,21 @@
-from fastapi import APIRouter, HTTPException, Request
-from app.services.auth_service import login
-from app.core.logger import logger
+from fastapi import APIRouter
+from oidc_routes import router as oidc_router
+from jwt_issue_routes import router as issue_router
+from jwt_verify_routes import router as verify_router
 
-router = APIRouter()
+def get_router() -> APIRouter:
+    router = APIRouter()
 
-@router.post("/login")
-async def login_route(data: dict, request: Request):
-    logger.info("Received login request from %s", request.client.host)
-    token = login(data["username"], data["password"])
-    if not token:
-        logger.error("Unauthorized login attempt for user '%s'", data["username"])
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    return {"access_token": token, "token_type": "Bearer"}
+    @router.get("/health")
+    def health():
+        """
+        Liveness probe endpoint.
+        Used by Docker, Kubernetes, and monitoring systems.
+        """
+        return {"status": "ok", "service": "Auth Service"}
+
+    router.include_router(oidc_router)
+    router.include_router(issue_router)
+    router.include_router(verify_router)
+
+    return router
