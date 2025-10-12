@@ -19,15 +19,10 @@ services:
     strip_path: false
 
   plugins:
-  - name: openid-connect
+  - name: jwt
     config:
-      issuer: http://auth-service:8005
-      discovery: true
-      verify_signature: true
-      verify_claims: true
-      scopes_required: []
-      roles_claim: "scope"
-      consumer_claim: "sub"
+      claims_to_verify:
+        - exp
   - name: rate-limiting
     config:
       second: 5
@@ -35,7 +30,8 @@ services:
       policy: local
   - name: cors
     config:
-      origins: "*"
+      origins:
+        - "*"
       methods: [ GET, POST ]
       headers: [ Authorization, Content-Type ]
       exposed_headers: [ X-User-ID ]
@@ -58,15 +54,10 @@ services:
     strip_path: false
 
   plugins:
-  - name: openid-connect
+  - name: jwt
     config:
-      issuer: http://auth-service:8005
-      discovery: true
-      verify_signature: true
-      verify_claims: true
-      scopes_required: []
-      roles_claim: "scope"
-      consumer_claim: "sub"
+      claims_to_verify:
+        - exp
   - name: rate-limiting
     config:
       second: 5
@@ -74,7 +65,8 @@ services:
       policy: local
   - name: cors
     config:
-      origins: "*"
+      origins:
+        - "*"
       methods: [ GET, POST ]
       headers: [ Authorization, Content-Type ]
       exposed_headers: [ X-User-ID ]
