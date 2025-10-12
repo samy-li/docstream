@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from oidc_routes import router as oidc_router
-from jwt_issue_routes import router as issue_router
-from jwt_verify_routes import router as verify_router
+from app.api.jwt_routes import router as oidc_router
+from app.api.jwt_issue_routes import router as issue_router
+from app.api.jwt_verify_routes import router as verify_router
 
 def get_router() -> APIRouter:
     router = APIRouter()
