@@ -114,7 +114,7 @@ services:
     container_name: kong
     restart: unless-stopped
     depends_on:
-      - auth_service   # Auth Service must start first for OIDC discovery
+      - auth_service
     environment:
       KONG_DATABASE: "off"
       KONG_DECLARATIVE_CONFIG: /usr/local/kong/kong.yml
