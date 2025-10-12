@@ -11,6 +11,62 @@ A complete, runnable version (including working Docker Compose setup) will be re
 In the meantime, you can explore the architecture and source code.
 
 ---
+## 🧩 System Architecture
+
+```mermaid
+graph LR
+    %% --- Entry Layer ---
+    subgraph Entry[Entry Layer]
+        client[Client]
+        kong[Kong Gateway]
+        client <--> kong
+    end
+
+    %% --- Core Services ---
+    subgraph Core[Core Services]
+        file_service[file_service]
+        parser_service[parser_service]
+        rabbitmq[(RabbitMQ)]
+        processing_service[processing_service]
+        auth_service[auth_service]
+    end
+
+    %% --- External Service ---
+    subgraph External[External Services]
+        openai[(OpenAI API)]
+    end
+
+    %% --- Observability Stack ---
+    subgraph Observability[Observability Stack]
+        otel[OpenTelemetry Collector]
+        prom[Prometheus]
+        jaeger[Jaeger]
+    end
+
+    %% --- Core Communication Flows ---
+    kong <--> file_service
+    kong <--> processing_service
+    kong <--> auth_service
+
+    file_service <--> parser_service
+    parser_service --> rabbitmq
+    rabbitmq --> processing_service
+
+    %% --- External Interaction ---
+    processing_service <--> openai
+
+    %% --- Telemetry Connections ---
+    kong --> otel
+    file_service --> otel
+    parser_service --> otel
+    processing_service --> otel
+    auth_service --> otel
+
+    otel --> prom
+    otel --> jaeger
+
+```
+---
 
 ## 🚀 Key Features  
 - **Multi-format support**: PDF, DOCX, TXT (future support for scanned images/OCR).  

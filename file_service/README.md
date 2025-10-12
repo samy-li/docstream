@@ -1,6 +1,6 @@
 # file_service – Document Upload Microservice
 
-file_service handles file uploads, validation, and storage to MinIO as part of the Resumate platform.
+file_service handles file uploads, validation, and storage to MinIO as part of the DocStream platform.
 
 ## Features
 - Accepts PDF, DOCX, TXT uploads
