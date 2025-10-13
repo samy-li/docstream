@@ -3,6 +3,30 @@ _transform: true
 
 
 services:
+#------------------------ auth_service ------------------
+- name: auth-service
+  url: http://auth-service:8005
+  routes:
+    - name: auth-route
+      paths:
+          - /auth
+  plugins:
+    - name: cors
+      config:
+        origins:
+          - "*"
+        methods:
+          - GET
+          - POST
+        headers:
+          - Authorization
+          - Content-Type
+        exposed_headers:
+          - X-User-ID
+        credentials: true
+        max_age: 3600
+
+
 # ───────────── file-service ───────────────────────────────────────────────────
 - name: file-service
   url: http://file-service:8001
