@@ -32,6 +32,13 @@ class Settings(BaseSettings):
     grpc_server_host: str = Field(default="0.0.0.0", env="GRPC_SERVER_HOST")
     grpc_server_port: int = Field(default=50051, env="GRPC_SERVER_PORT")
 
+    # **************************** Circuit breaker *******************
+    breaker_config = {
+        "parser_service": {
+            "fail_max": 3,
+            "reset_timeout": 30,
+        }
+    }
 
     class Config:
         env_file = ".env"
